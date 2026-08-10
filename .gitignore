@@ -6,3 +6,4 @@ build/
 *.map
 *.size
 *.size.prev
+docs/build/

@@ -1,0 +1,41 @@
+PROJECT_NAME           = "m1kern"
+PROJECT_BRIEF          = "a small preemptive kernel for the Gowin Cortex-M1 softcore"
+OUTPUT_DIRECTORY       = build
+HTML_OUTPUT            = html
+GENERATE_LATEX         = NO
+
+# the kernel API and its port. the vendor BSP is deliberately not documented
+INPUT                  = ../m1kern/include \
+                         ../port/gowin_m1/include \
+                         index.md \
+                         usage.md \
+                         examples.md
+USE_MDFILE_AS_MAINPAGE = index.md
+
+# examples referenced from usage.md via \include
+EXAMPLE_PATH           = ../examples
+
+RECURSIVE              = YES
+JAVADOC_AUTOBRIEF      = YES
+OPTIMIZE_OUTPUT_FOR_C  = YES
+EXTRACT_STATIC         = NO
+MARKDOWN_SUPPORT       = YES
+AUTOLINK_SUPPORT       = YES
+
+# macros are half the API here, so they have to show up
+ENABLE_PREPROCESSING   = YES
+MACRO_EXPANSION        = NO
+PREDEFINED             = __GNUC__
+
+SOURCE_BROWSER         = YES
+GENERATE_TREEVIEW      = YES
+DISABLE_INDEX          = NO
+FULL_SIDEBAR           = NO
+HTML_COLORSTYLE        = TOGGLE
+
+HAVE_DOT               = YES
+CALL_GRAPH             = NO
+CALLER_GRAPH           = NO
+
+QUIET                  = YES
+WARN_IF_UNDOCUMENTED   = NO
