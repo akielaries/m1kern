@@ -1,12 +1,15 @@
 # m1kern
 
-A small preemptive kernel for ARM Cortex-M. Static threads, no heap, strict
-priority scheduling with round robin among equals. A 1 ms tick pends PendSV
-every tick, so threads are preempted whether or not they yield.
+# m1kern
+A small preemptive kernel for the Gowin Cortex-M1 softcore. Static threads, no
+heap, strict priority scheduling with round robin among equals. A 1 ms SysTick
+pends PendSV every tick, so threads are preempted whether or not they yield.
 
-Three layers: `kernel/` is portable, `arch/armv6m/` is the context switch, and
-`target/gowin_m1/` is the chip. Only the Gowin EMPU-M1 softcore is supported
-today; adding an MCU means a new directory under `target/`.
+The project takes a great deal of inspiration from chibiOS. You will find some
+syntax is similar.
+
+`kernel/` is the scheduler and context switch, `target/` is the chip: tick,
+exception handlers, vendor BSP and linker scripts.
 
 Docs: https://akielaries.github.io/m1kern
 
@@ -40,5 +43,4 @@ cmake -S . -B build
 cmake --build build
 ```
 
-Needs `arm-none-eabi-gcc`. Binaries land in `build/bin/`. Pick a target with
-`-DM1KERN_TARGET=<name>`, defaulting to `gowin_m1`.
+Needs `arm-none-eabi-gcc`. Binaries land in `build/bin/`.

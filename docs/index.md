@@ -1,26 +1,23 @@
 # m1kern
 
-a small preemptive kernel for ARM Cortex-M.
+a small preemptive kernel for the Gowin Cortex-M1 softcore.
 
 static threads, no heap, strict priority scheduling with round robin among
-equals, and a 1 ms tick that preempts whether or not a thread cooperates.
+equals, and a 1 ms SysTick that preempts whether or not a thread cooperates.
 
-three layers, each replaceable independently:
-
-| layer | what it holds |
+| directory | what it holds |
 | --- | --- |
-| `kernel/` | thread table, scheduler, initial stack frames. no CPU or chip code |
-| `arch/armv6m/` | the context switch (`pendsv.S`) and first-thread entry |
-| `target/gowin_m1/` | tick source, exception handlers, vendor BSP, linker scripts |
+| `kernel/` | thread table, scheduler, initial stack frames, the context switch |
+| `target/` | tick source, exception handlers, vendor BSP, linker scripts, board support |
+| `examples/` | five runnable programs |
 
-only the Gowin EMPU-M1 softcore is supported today. see @ref usage "usage" for
-what adding another target involves.
+this targets the Gowin EMPU-M1 specifically and links against the vendor BSP.
+it is not portable and does not try to be.
 
-- @ref usage "usage" - wiring it into a project, and adding a target
+- @ref usage "usage" - building and wiring it into a project
 - @ref examples "examples" - the five programs in `examples/`
 - [m1kern.h](m1kern_8h.html) - the whole public API
-- [m1kern_arch.h](m1kern__arch_8h.html) and
-  [m1kern_target.h](m1kern__target_8h.html) - the two porting seams
+- [m1kern_target.h](m1kern__target_8h.html) - tick and exception plumbing
 
 ## what it does not have
 
