@@ -4,9 +4,9 @@ OUTPUT_DIRECTORY       = build
 HTML_OUTPUT            = html
 GENERATE_LATEX         = NO
 
-# the kernel API and its port. the vendor BSP is deliberately not documented
-INPUT                  = ../m1kern/include \
-                         ../port/gowin_m1/include \
+# the kernel API and its target layer. the vendor BSP is not documented
+INPUT                  = ../kernel/include \
+                         ../target/include \
                          index.md \
                          usage.md \
                          examples.md

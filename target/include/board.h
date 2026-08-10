@@ -1,5 +1,6 @@
-/*
- * board bring-up shared by the examples. not part of the kernel.
+/**
+ * @file board.h
+ * @brief board bring-up for the examples. not part of the kernel
  */
 #pragma once
 

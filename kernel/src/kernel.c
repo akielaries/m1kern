@@ -1,5 +1,5 @@
 #include "m1kern.h"
-#include "m1kern_port.h"
+#include "m1kern_target.h"
 
 static thread_t *threads[MAX_THREADS];
 static uint32_t thread_count = 0;
@@ -52,10 +52,7 @@ static void init_stack(thread_t *new_thread, void (*entry)(void)) {
 
 void kernel_init(void) {
   thread_count = 0;
-  M1KERN_LOG("SysTick LOAD: 0x%X\r\n", SysTick->LOAD);
-  M1KERN_LOG("SysTick CTRL: 0x%X\r\n", SysTick->CTRL);
-  M1KERN_LOG("__StackLimit: 0x%X\r\n", (uint32_t)&__StackLimit);
-  M1KERN_LOG("__StackTop:   0x%X\r\n", (uint32_t)&__StackTop);
+  m1kern_target_dump_state();
 }
 
 thread_t *thread_create(thread_t *t,
@@ -126,7 +123,7 @@ void thread_yield(void) {
   // this bit is going to pend the pendSV exception. not directly invoking a
   // context switch but tells the processor to handle pendSV soon which DOES
   // handle the context switch (pendsv.S)
-  m1kern_port_pend_switch();
+  m1kern_target_pend_switch();
 }
 
 void thread_sleep_ms(uint32_t ms) {
@@ -146,7 +143,7 @@ void kernel_start(void) {
     return;
   }
 
-  m1kern_port_set_exc_prio();
+  m1kern_target_set_exc_prio();
 
   uint32_t first_sp = (uint32_t)threads[0]->sp;
 

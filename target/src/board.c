@@ -1,6 +1,6 @@
 #include "board.h"
 
-#include "m1kern_port.h"
+#include "m1kern_target.h"
 #include "GOWIN_M1_gpio.h"
 
 #define LED_PORT GPIO0
@@ -9,7 +9,7 @@
 void board_init(void) {
   SystemInit();
   console_init();
-  m1kern_port_tick_init();
+  m1kern_target_tick_init();
 
   GPIO_InitTypeDef init;
   init.GPIO_Pin  = LED_MASK;
@@ -18,8 +18,7 @@ void board_init(void) {
   GPIO_Init(LED_PORT, &init);
 
   console_printf("\r\n");
-  console_printf("m1kern on gowin cortex-m1 @ %d MHz\r\n",
-                 SystemCoreClock / 1000000);
+  console_printf("m1kern @ %d MHz\r\n", SystemCoreClock / 1000000);
 }
 
 void led_toggle(uint32_t pin) {

@@ -1,16 +1,16 @@
 /*
- * gowin cortex-m1 port
+ * gowin EMPU-M1 target
  *
  * supplies the tick and the three exception handlers the switch depends on.
  * the vector table in startup_GOWIN_M1.S declares all of these weak, so
  * defining them here is all the wiring that is needed.
  */
 #include "m1kern.h"
-#include "m1kern_port.h"
+#include "m1kern_target.h"
 
 #include "GOWIN_M1_misc.h"
 
-void m1kern_port_tick_init(void) {
+void m1kern_target_tick_init(void) {
   SysTick_CLKSourceConfig(SysTick_CLKSource_HCLK);
 
   /*
@@ -21,12 +21,19 @@ void m1kern_port_tick_init(void) {
   SysTick_Config(SystemCoreClock / M1KERN_TICK_HZ);
 }
 
+void m1kern_target_dump_state(void) {
+  M1KERN_LOG("SysTick LOAD: 0x%X\r\n", SysTick->LOAD);
+  M1KERN_LOG("SysTick CTRL: 0x%X\r\n", SysTick->CTRL);
+  M1KERN_LOG("__StackLimit: 0x%X\r\n", (uint32_t)&__StackLimit);
+  M1KERN_LOG("__StackTop:   0x%X\r\n", (uint32_t)&__StackTop);
+}
+
 /*
  * kernel_start issues svc #0 to get the very first switch going. all this has
  * to do is pend PendSV; the scheduler runs from there.
  */
 void SVC_Handler(void) {
-  m1kern_port_pend_switch();
+  m1kern_target_pend_switch();
 }
 
 /*
@@ -46,7 +53,7 @@ void SysTick_Handler(void) {
   system_time_ms++;
 
   if (kernel_running) {
-    m1kern_port_pend_switch();
+    m1kern_target_pend_switch();
   }
 }
 
