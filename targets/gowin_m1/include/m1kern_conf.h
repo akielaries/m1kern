@@ -20,10 +20,19 @@
 #endif
 
 /**
+ * @brief header declaring whatever M1KERN_LOG expands to
+ *
+ * define to a quoted path, e.g. -DM1KERN_LOG_HEADER='"debug.h"'
+ */
+#ifdef M1KERN_LOG_HEADER
+#include M1KERN_LOG_HEADER
+#endif
+
+/**
  * @brief optional trace hook, a printf-alike
  *
- * no-op by default so the kernel has no I/O dependency. define it to
- * console_printf for the boot dump and fault reports
+ * no-op by default so the kernel has no I/O dependency. define it to your own
+ * printf for the boot dump and fault reports, along with M1KERN_LOG_HEADER
  */
 #ifndef M1KERN_LOG
 #define M1KERN_LOG(...) ((void)0)
